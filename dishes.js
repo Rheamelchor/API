@@ -2,7 +2,6 @@ const http = require('http');
 const mysql = require('mysql2');
 const url = require('url');
 
-// Create DB connection
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -15,27 +14,23 @@ db.connect(err => {
   console.log('Connected to MySQL database');
 });
 
-// Create server
 const server = http.createServer((req, res) => {
-  // Enable JSON response
   res.setHeader('Content-Type', 'application/json');
 
-  // Parse URL and query parameters
   const parsedUrl = url.parse(req.url, true);
   const path = parsedUrl.pathname;
   const query = parsedUrl.query;
   const method = req.method;
 
-  // Handle routes for dishes
+  
   if (path === '/dishes' && method === 'GET') {
     if (query.dish_id) {
-      // Get single dish
+
       db.query('SELECT * FROM dishes WHERE dish_id = ?', [query.dish_id], (err, result) => {
         if (err) throw err;
         res.end(JSON.stringify(result[0] || {}));
       });
     } else {
-      // Get all dishes
       db.query('SELECT * FROM dishes', (err, result) => {
         if (err) throw err;
         res.end(JSON.stringify(result));
@@ -44,7 +39,6 @@ const server = http.createServer((req, res) => {
   }
 
   else if (path === '/dishes' && method === 'POST') {
-    // Insert new dish
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
@@ -61,7 +55,6 @@ const server = http.createServer((req, res) => {
   }
 
   else if (path === '/dishes' && method === 'PUT') {
-    // Update dish
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
@@ -78,7 +71,6 @@ const server = http.createServer((req, res) => {
   }
 
   else if (path === '/dishes' && method === 'DELETE') {
-    // Delete dish
     db.query('DELETE FROM dishes WHERE dish_id=?', [query.dish_id], (err, result) => {
       if (err) throw err;
       res.end(JSON.stringify({ message: 'Dish deleted' }));
@@ -91,7 +83,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-// Start server
 const port = 3000;
 server.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

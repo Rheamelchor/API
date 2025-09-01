@@ -4,7 +4,7 @@ const url = require('url');
 
 const db = mysql.createConnection({
   host: '192.168.1.139',
-  user: 'botewifi',
+  user: 'root',
   password: 'botewifi',
   database: 'crud'
 });

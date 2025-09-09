@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 const url = require('url');
 
 const db = mysql.createConnection({
-  host: '192.168.1.139',
+  host: '127.0.0.1',
   user: 'root',
   password: 'botewifi',
   database: 'crud'
@@ -85,6 +85,6 @@ const server = http.createServer((req, res) => {
 
 const port = 3000;
 server.listen(port, () => {
-  console.log(`Server running at http://192.168.1.139:${port}`);
+  console.log(`Server running at http://127.0.0.1:${port}`);
 });
 
